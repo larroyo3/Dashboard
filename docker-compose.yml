@@ -1,10 +1,17 @@
 version: '3'
 
 services:
-  server:
+  lavaboard:
     build: ./lavaboard/
     ports:
       - 80:80
+    restart: always
+    environment:
+      - 0.0.0.0
+  server:
+    build:  ./server
+    ports:
+      - 8080:8080
     restart: always
     environment:
       - 0.0.0.0
