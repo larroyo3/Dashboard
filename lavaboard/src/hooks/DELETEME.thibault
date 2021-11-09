@@ -1,4 +1,4 @@
 Pour pouvoir push le dossier
 
 
-hooks = fonction qui return une variables
+hooks = fonction qui return une variables avec useState ou useEffect
