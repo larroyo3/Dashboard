@@ -2,7 +2,7 @@ version: '3'
 
 services:
   lavaboard:
-    build: ./lavaboard/
+    build: ./lavaboard
     container_name: lavaboard
     ports:
       - 80:80
