@@ -1,9 +1,19 @@
 const express = require("express");
 var requestIp = require('request-ip');
+const mariadb = require('mariadb');
+
+const pool = mariadb.createPool({
+     host: 'mydb.com', 
+     user:'thib', 
+     password: 'thib',
+     connectionLimit: 5
+});
 const app = express();
+
 app.listen(8080, () => {
   console.log("Listening on port 8080.");
 });
+
 app.get("/about.json", (req, res) => {
   var ip = requestIp.getClientIp(req);
   if (ip.substr(0, 7) == "::ffff:") {
