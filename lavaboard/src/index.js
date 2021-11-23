@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Register from './views/Register'
+import Login from './views/LogIn'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
@@ -10,6 +11,7 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
       <Route
         path="*"
         element={
