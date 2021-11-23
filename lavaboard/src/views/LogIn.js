@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import ConnexionCard from "../ui-componants/ConnexionCard";
 import "../ui-componants/ui-components.css"
 
@@ -14,27 +13,12 @@ import { Visibility as VisibilityIcon } from "@material-ui/icons";
 import { VisibilityOff as VisibilityOffIcon } from "@material-ui/icons";
 
 
-function Register() {
-
-  function checkPass() {
-    var divcomp;
-
-    if (values.password === values.confirmPassword) {
-      divcomp = "<p style='color:green'>Correct</p>";
-      // TODO connexion au back
-    }
-    else {
-      divcomp = "<p style='color:red'>Mot de passe différent</p>";
-    }
-    document.getElementById("divcomp").innerHTML= divcomp;
-  }
+function Login() {
 
   const [values, setValues] = React.useState({
     mail: "",
     password: "",
-    confirmPassword: "",
-    showPassword: false,
-    showConfirmPassword: false
+    showPassword: false
   });
 
   const handleChange = (prop) => (event) => {
@@ -47,17 +31,8 @@ function Register() {
       showPassword: !values.showPassword
     });
   };
-  const handleClickShowConfirmPassword = () => {
-    setValues({
-      ...values,
-      showConfirmPassword: !values.showConfirmPassword
-    });
-  };
 
   const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-  const handleMouseDownConfirmPassword = (event) => {
     event.preventDefault();
   };
 
@@ -66,7 +41,7 @@ function Register() {
       <div className='lb-space'></div>
       <div className='lb-card'>
         <ConnexionCard>
-          <h1>Register</h1>
+          <h1>Log In</h1>
           <FormControl>
             <InputLabel htmlFor="component-outlined">Mail</InputLabel>
             <OutlinedInput
@@ -100,32 +75,7 @@ function Register() {
               label="Password"
             />
           </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="outlined-adornment-password">
-              ConfirmPassword
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={values.showConfirmPassword ? "text" : "password"}
-              value={values.confirmPassword}
-              onChange={handleChange("confirmPassword")}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowConfirmPassword}
-                    onMouseDown={handleMouseDownConfirmPassword}
-                    edge="end"
-                  >
-                    {values.showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="ConfirmPassword"
-            />
-          </FormControl>
-          <span id="divcomp"></span>
-          <Button variant="contained" onClick={() => checkPass()}>Connexion</Button>
+          <Button variant="contained" onClick={() => console.log(values.mail, values.password)}>Connexion</Button>
         </ConnexionCard>
       </div>
       <div className='lb-space'></div>
@@ -133,4 +83,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

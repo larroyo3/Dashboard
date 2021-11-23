@@ -1,0 +1,12 @@
+.wrapper,
+html,
+body {
+  height: 100vh;
+  margin: 0;
+  background-color: #F4EDDE;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
