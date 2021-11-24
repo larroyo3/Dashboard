@@ -1,14 +1,12 @@
+const user = require("./users.js")
 const express = require("express");
 var requestIp = require('request-ip');
-const mariadb = require('mariadb');
+const cors = require('cors')
 
-const pool = mariadb.createPool({
-     host: 'mydb.com', 
-     user:'thib', 
-     password: 'thib',
-     connectionLimit: 5
-});
 const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 app.listen(8080, () => {
   console.log("Listening on port 8080.");
@@ -25,17 +23,13 @@ app.get("/about.json", (req, res) => {
     server: {
       current_time: time,
       services: [{
-        name: 'vaccine',
-        widgets: [{
-          name: 'country_vaccines',
-          description: 'get vaccines per country',
-          params: [{
-            name: 'country',
-            type: 'string'
-          }]
-        }]
       }]
     }
   }
   res.status(200).json(jso);
+})
+
+app.post("/register", (req, res) => {
+  user.createUser(req.body.username, req.body.pass);
+  user.getUsers();
 })
