@@ -18,26 +18,35 @@ services:
     environment:
       - 0.0.0.0
   db:
-    image: mongo
-    container_name: mongo-db
+    image: mariadb
+    container_name: maria
     restart: always
+    environment:
+      MYSQL_USER: thib
+      MYSQL_DATABASE: db
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_PASSWORD: thib
     volumes:
-      - "mongodata:/data/db"
+      - mariadata:/var/lib/mysql
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
     ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-  mongo-express:    
-    image: mongo-express
-    container_name: mongo-express
+        - "3306:3306"
+  phpmyadmin:
+    container_name: myadmin
+    image: phpmyadmin/phpmyadmin
     restart: always
+    depends_on:
+      - db
+    links:
+      - db:db
     ports:
-      - "8081:8081"
+      - 8081:80
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: mongo-db
+      MYSQL_USER: thib
+      MYSQL_PASSWORD: thib
+      MYSQL_ROOT_PASSWORD: qwerty
+    volumes:
+      - /sessions
 
 volumes:
-  mongodata:
+  mariadata:

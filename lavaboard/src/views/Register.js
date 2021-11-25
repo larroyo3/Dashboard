@@ -13,15 +13,23 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Visibility as VisibilityIcon } from "@material-ui/icons";
 import { VisibilityOff as VisibilityOffIcon } from "@material-ui/icons";
 
+import axios from 'axios'
 
 function Register() {
+
+  function registerUser(name, password) {
+    axios.post('http://localhost:8080/register', {"username": name, "pass": password})
+    .catch(err => {
+      console.error(err);
+    })
+  }
 
   function checkPass() {
     var divcomp;
 
     if (values.password === values.confirmPassword) {
       divcomp = "<p style='color:green'>Correct</p>";
-      // TODO connexion au back
+      registerUser(values.mail, values.password)
     }
     else {
       divcomp = "<p style='color:red'>Mot de passe différent</p>";
