@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+import nextId from "react-id-generator";
+import { setPrefix } from "react-id-generator";
+import Draggable from "react-draggable";
+
 //import component
 
 //import MUI
@@ -22,6 +26,17 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const drawerWidth = 240;
 
@@ -70,20 +85,52 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
+setPrefix("");
 
 export default function HomePage() {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
 
+    //drawer
+    const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
         setOpen(true);
     };
-
     const handleDrawerClose = () => {
         setOpen(false);
     };
 
-    const [widget, setWidget] = useState([{ color: "blue", name: "hello", witdh:"30%"}, { color: "red", name: "world", witdh:"5%" }, {color:"green", name:"coucou", witdh:"40%"}, { color: "blue", name: "hello", witdh:"25%"}, { color: "red", name: "world", witdh:"10%" }, {color:"green", name:"coucou", witdh:"30%"}])
+    const deleteWidget = (index) => {
+        const data = widget.filter(i => i.id !== index)
+        setWidget(data);
+    }
+
+    //dialogue
+    const [openDialogue, setOpenDialogue] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpenDialogue(true);
+    };
+    const handleClose = () => {
+        setOpenDialogue(false);
+    };
+
+    //forms dialogue
+    const [values, setValues] = React.useState({
+        couleur: "",
+        text: "",
+        largeur: "",
+    });
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+    const confirmForm = () => {
+        setOpenDialogue(false);
+        setWidget(widget.concat({ id: nextId(), color: values.couleur, name: values.text, witdh: values.largeur }));
+        values.couleur = "";
+        values.text = "";
+        values.largeur = "";
+    };
+
+    const [widget, setWidget] = useState([{ id: nextId(), color: "blue", name: "hello", witdh: "30" }, { id: nextId(), color: "red", name: "world", witdh: "5" }, { id: nextId(), color: "green", name: "coucou", witdh: "40" }, { id: nextId(), color: "blue", name: "hello", witdh: "25" }, { id: nextId(), color: "red", name: "world", witdh: "10" }, { id: nextId(), color: "green", name: "coucou", witdh: "30" }])
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -125,9 +172,9 @@ export default function HomePage() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    Service 1
-                    {['Widget 1', 'Widget 2', 'Widget 3', 'Widget 4'].map((text, index) => (
-                        <ListItem button key={text} onClick={() => setWidget(widget.concat({color:"orange", name: text, width:"30%"}))}>
+                    COVID 19
+                    {['Cas par jour', "Taux d'incidence", 'Taux de vaccination'].map((text, index) => (
+                        <ListItem button key={text} onClick={handleClickOpen}>
                             <ListItemIcon>
                                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                             </ListItemIcon>
@@ -137,9 +184,9 @@ export default function HomePage() {
                 </List>
                 <Divider />
                 <List>
-                    Service 2
-                    {['Widget 1', 'Widget 2', 'Widget 3'].map((text, index) => (
-                        <ListItem button key={text} onClick={() =>console.log(widget)}>
+                    Météo
+                    {['Prévision'].map((text, index) => (
+                        <ListItem button key={text} onClick={handleClickOpen}>
                             <ListItemIcon>
                                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                             </ListItemIcon>
@@ -149,10 +196,10 @@ export default function HomePage() {
                 </List>
                 <Divider />
                 <List>
-                    Service 3
-                    {['Widget 1', 'Widget 2', 'Widget 3', 'Widget 4'].map((text, index) => (
+                    Horloge mondiale
+                    {['Heure', "Différence d'heure"].map((text, index) => (
                         <ListItem button key={text}>
-                            <ListItemIcon>
+                            <ListItemIcon onClick={handleClickOpen}>
                                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                             </ListItemIcon>
                             <ListItemText primary={text} />
@@ -162,13 +209,64 @@ export default function HomePage() {
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-                <Box style={{display: "flex", flexWrap:'wrap', flexDirection:'row'}}>
-                {widget.map((item, index) => (
-                    <Box key={item} style={{width: item.witdh, height: 300, backgroundColor:item.color}}>
-                        {item.color}
-                    </Box>
-                ))}
+                <Box style={{ display: "flex", flexWrap: 'wrap', flexDirection: 'row' }}>
+                    {widget.map((item, index) => (
+                        <Draggable>
+                            <Box key={index} style={{ width: item.witdh + "%", height: 290, backgroundColor: item.color }}>
+                                {item.name}
+                                <IconButton aria-label="delete" onClick={() => deleteWidget(item.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                                <IconButton aria-label="delete">
+                                    <MoreHorizIcon />
+                                </IconButton>
+                            </Box>
+                        </Draggable>
+                    ))}
                 </Box>
+                <div>
+                    <Dialog open={openDialogue} onClose={handleClose}>
+                        <DialogTitle>Subscribe</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To subscribe to this website, please enter your email address here. We
+                                will send updates occasionally.
+                            </DialogContentText>
+                            <FormControl>
+                                <InputLabel htmlFor="component-outlined">couleur</InputLabel>
+                                <OutlinedInput
+                                    id="component-outlined"
+                                    value={values.couleur}
+                                    onChange={handleChange("couleur")}
+                                    label="couleur"
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <InputLabel htmlFor="component-outlined">text</InputLabel>
+                                <OutlinedInput
+                                    id="component-outlined"
+                                    value={values.text}
+                                    onChange={handleChange("text")}
+                                    label="text"
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <InputLabel htmlFor="component-outlined">Largeur</InputLabel>
+                                <OutlinedInput
+                                    id="component-outlined"
+                                    value={values.largeur}
+                                    onChange={handleChange("largeur")}
+                                    label="largeur"
+                                    endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                                />
+                            </FormControl>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button onClick={confirmForm}>Subscribe</Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
             </Main>
         </Box>
     );
