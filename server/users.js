@@ -16,14 +16,15 @@ exports.createUser = async (req, res) => {
     var rows = await conn.query(query);
     if (rows[0] != undefined) {
         conn.end()
-        res.status(400)
-        return;
+        res.status(400).json({err:"user already exists"})
+        res.send()
     } else {
         query = "INSERT INTO `users` (username, password) VALUES ('" + req.body.username + "','" + req.body.pass + "')";
         rows = await conn.query(query);
         conn.end();
-        res.status(200)
-        return;
+        res.status(200).json({err:"registered"})
+        res.redirect('http://localhost/login')
+        res.send()
     }
 }
 
@@ -41,7 +42,7 @@ exports.login = async (req, res) => {
     else if (row[0].password == req.body.pass) {
         console.log('good')
         res.status(200)
-        res.redirect('http://localhost/home')
+        res.redirect('http://localhost/dashboard')
         return;
     }
     else {

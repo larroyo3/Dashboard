@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect, useState} from "react";
 
 import ConnexionCard from "../ui-componants/ConnexionCard";
 import "../ui-componants/ui-components.css"
@@ -17,22 +17,30 @@ import axios from 'axios'
 
 function Register() {
 
-  function registerUser(name, password) {
+  const [divcomp, setDiv] = useState("");
+
+  useEffect(() => { 
+    document.getElementById("divcomp").innerHTML= divcomp;
+  }, [divcomp])
+
+  const registerUser = async (name, password) => {
     axios.post('http://localhost:8080/register', {"username": name, "pass": password})
-    .catch(err => {
-      console.error(err);
+    .then((data) => {
+      setDiv("<p style='color:green'>Correct</p>")
+    })
+    .catch((err) => {
+      setDiv("<p style='color:red'>pseudo deja utilisé</p>")
     })
   }
 
   function checkPass() {
     var divcomp;
-
     if (values.password === values.confirmPassword) {
-      divcomp = "<p style='color:green'>Correct</p>";
+      setDiv("<p style='color:green'>Correct</p>");
       registerUser(values.mail, values.password)
-    }
+    } 
     else {
-      divcomp = "<p style='color:red'>Mot de passe différent</p>";
+      setDiv("<p style='color:red'>Mot de passe différent</p>");
     }
     document.getElementById("divcomp").innerHTML= divcomp;
   }
@@ -133,7 +141,7 @@ function Register() {
             />
           </FormControl>
           <span id="divcomp"></span>
-          <Button variant="contained" onClick={() => checkPass()}>Connexion</Button>
+          <Button variant="contained" onClick={() => checkPass()}>Inscription</Button>
         </ConnexionCard>
       </div>
       <div className='lb-space'></div>
