@@ -1,7 +1,7 @@
 const user = require("./users.js")
 const express = require("express");
 var requestIp = require('request-ip');
-const cors = require('cors')
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
@@ -27,9 +27,8 @@ app.get("/about.json", (req, res) => {
     }
   }
   res.status(200).json(jso);
-})
+});
 
-app.post("/register", (req, res) => {
-  user.createUser(req.body.username, req.body.pass);
-  user.getUsers();
-})
+app.post("/register", user.createUser);
+
+app.post("/login", user.login);

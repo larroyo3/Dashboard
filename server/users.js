@@ -1,43 +1,52 @@
 const mariadb = require('mariadb');
+const express = require("express");
 
 const pool = mariadb.createPool({
-     host: 'db',
-     database: 'db', 
-     user:'thib', 
-     password: 'thib',
-     connectionLimit: 5
+    host: 'db',
+    database: 'db', 
+    user:'thib', 
+    password: 'thib',
+    connectionLimit: 5
 });
 
-exports.getUsers = async function getUsers() {
-  let conn;
-  try {
-    // here we make a connection to MariaDB
+exports.createUser = async (req, res) => {
+    let conn
     conn = await pool.getConnection();
-
-    // create a new query to fetch all records from the table
-    var query = "select username,password from users";
-
-    // we run the query and set the result to a new variable
+    var query = "SELECT `username` FROM `users` WHERE `username` = '" + req.body.username + "'";
     var rows = await conn.query(query);
-    rows.forEach(elems => console.log(elems));
-  } catch (err) {
-      throw err;
-  } finally {
-      if (conn) return conn.release();
-  }
-};
-exports.createUser = async function createUser(username, password) {
-  let conn;
-  try {
-    // here we make a connection to MariaDB
+    if (rows[0] != undefined) {
+        conn.end()
+        res.status(400)
+        return;
+    } else {
+        query = "INSERT INTO `users` (username, password) VALUES ('" + req.body.username + "','" + req.body.pass + "')";
+        rows = await conn.query(query);
+        conn.end();
+        res.status(200)
+        return;
+    }
+}
+
+exports.login = async (req, res) => {
+    let conn
     conn = await pool.getConnection();
-    // create a new query to insert record in MariaDB
-    var query = "INSERT INTO `users` (username, password) VALUES ('" + username + "','" + password + "')";
-    console.log(query)
-    var rows = await conn.query(query);
-  } catch (err) {
-      console.log(err);
-  } finally {
-      if (conn) return conn.release();
-  }
+    var query = "SELECT `username` `password` FROM `users` WHERE `username` = '" + req.body.username + "'";
+    var row = await conn.query(query);
+    conn.end
+    if (row[0] == undefined) {
+        console.log('no username')
+        res.status(400)
+        return;
+    }
+    else if (row[0].password == req.body.pass) {
+        console.log('good')
+        res.status(200)
+        res.redirect('http://localhost/home')
+        return;
+    }
+    else {
+        console.log('wrong pass')
+        res.status(400)
+        return;
+    }
 }
