@@ -2,14 +2,21 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import "./App.css"
 
+//import MUI
+import Divider from '@mui/material/Divider';
+
 function App() {
   return (
-    <div class="wrapper">
+    <div>
       <h1>Viens créer ton Dashbord</h1>
-      <nav>
+      <Divider />
+      <div>
         <Link to="register">Register</Link>
+        <Divider />
         <Link to="login">Login</Link>
-      </nav>
+        <Divider />
+        <Link to="dashboard">HomePage</Link>
+      </div>
     </div>
   );
 }
