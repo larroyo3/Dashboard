@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import nextId from "react-id-generator";
 import { setPrefix } from "react-id-generator";
@@ -37,6 +38,9 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import IconLogout from '@mui/icons-material/Logout';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const drawerWidth = 240;
 
@@ -89,6 +93,17 @@ setPrefix("");
 
 export default function HomePage() {
     const theme = useTheme();
+    let navigate = useNavigate();
+
+    //menu
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openMenu = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
 
     //drawer
     const [open, setOpen] = React.useState(false);
@@ -149,9 +164,27 @@ export default function HomePage() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Lavaboard
                     </Typography>
-                    <Button color="inherit">Log Out / Profile</Button>
+                    <Button color="inherit" onClick={handleClick} >Log Out / Profile</Button>
                 </Toolbar>
             </AppBar>
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={openMenu}
+                onClose={handleCloseMenu}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+            >
+                <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+                <Divider />
+                <MenuItem onClick={ () => navigate("/")}>
+                    <ListItemIcon>
+                        <IconLogout fontSize="small" />
+                    </ListItemIcon>
+                    Logout
+                </MenuItem>
+            </Menu>
             <Drawer
                 sx={{
                     width: drawerWidth,
