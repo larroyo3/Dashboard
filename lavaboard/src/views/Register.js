@@ -3,6 +3,8 @@ import React, {useEffect, useState} from "react";
 import ConnexionCard from "../ui-componants/ConnexionCard";
 import "../ui-componants/ui-components.css"
 
+import { useNavigate } from "react-router-dom";
+
 //import MUI
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -17,6 +19,7 @@ import axios from 'axios'
 
 function Register() {
 
+  let navigate = useNavigate();
   const [divcomp, setDiv] = useState("");
 
   useEffect(() => { 
@@ -27,6 +30,7 @@ function Register() {
     axios.post('http://localhost:8080/register', {"username": name, "pass": password})
     .then((data) => {
       setDiv("<p style='color:green'>Correct</p>")
+      navigate("/login")
     })
     .catch((err) => {
       setDiv("<p style='color:red'>pseudo deja utilisé</p>")

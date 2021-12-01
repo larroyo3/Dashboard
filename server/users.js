@@ -23,7 +23,6 @@ exports.createUser = async (req, res) => {
         rows = await conn.query(query);
         conn.end();
         res.status(200).json({err:"registered"})
-        res.redirect('http://localhost/login')
         res.send()
     }
 }
@@ -31,23 +30,25 @@ exports.createUser = async (req, res) => {
 exports.login = async (req, res) => {
     let conn
     conn = await pool.getConnection();
-    var query = "SELECT `username` `password` FROM `users` WHERE `username` = '" + req.body.username + "'";
+    var query = "SELECT `username`, `password` FROM `users` WHERE `username` = '" + req.body.username + "'";
     var row = await conn.query(query);
-    conn.end
+    conn.end()
     if (row[0] == undefined) {
         console.log('no username')
-        res.status(400)
+        res.status(400).json({error: 'no username matching'})
+        res.send()
         return;
     }
     else if (row[0].password == req.body.pass) {
         console.log('good')
-        res.status(200)
-        res.redirect('http://localhost/dashboard')
+        res.status(200).json({username:req.body.user, pass:req.body.pass})
+        res.send()
         return;
     }
     else {
         console.log('wrong pass')
-        res.status(400)
+        res.status(400).json({error: 'password is not matching'})
+        res.send()
         return;
     }
 }

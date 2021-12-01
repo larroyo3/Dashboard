@@ -2,6 +2,8 @@ import * as React from "react";
 import ConnexionCard from "../ui-componants/ConnexionCard";
 import "../ui-componants/ui-components.css"
 
+import { useNavigate } from "react-router-dom";
+
 //import MUI
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -16,10 +18,16 @@ import axios from "axios";
 
 function Login() {
 
+  let navigate = useNavigate();
+
   function callLogin(mail, pass) {
     axios.post('http://localhost:8080/login', {"username": mail, "pass": pass})
+    .then(data => {
+      console.log(data.body);
+      navigate("/dashboard")
+    })
     .catch(err => {
-      console.error(err);
+      console.log(err);
     })
   }
 
