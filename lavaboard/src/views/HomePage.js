@@ -42,6 +42,8 @@ import IconLogout from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
+const covid = require('../services/apis/covid.js');
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -92,6 +94,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 setPrefix("");
 
 export default function HomePage() {
+
+    covid.getDataCountry("france");
+
     const theme = useTheme();
     let navigate = useNavigate();
 
