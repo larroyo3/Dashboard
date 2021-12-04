@@ -6,6 +6,7 @@ import Login from './views/LogIn'
 import HomePage from './views/HomePage'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
+import BadURL from './views/BadURL';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -14,14 +15,7 @@ ReactDOM.render(
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<HomePage />} />
-      <Route
-        path="*"
-        element={
-          <main style={{ padding: "1rem" }}>
-            <p>There's nothing here!</p>
-          </main>
-        }
-      />
+      <Route path="*" element={<BadURL/>}/>
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
