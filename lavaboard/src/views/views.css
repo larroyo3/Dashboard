@@ -1,0 +1,14 @@
+.Img1{
+    height:99.5vh;
+    width:100vw;
+    z-index: 5;
+    position:absolute
+}
+
+.Img2{
+    height:99.5vh;
+    width:100vw;
+    z-index: 20;
+    opacity:0.4;
+    position:absolute
+}

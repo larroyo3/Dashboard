@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  lavaboard:
+    build: ./lavaboard
+    container_name: lavaboard
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - 0.0.0.0
+  server:
+    build:  ./server
+    container_name: server
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      - 0.0.0.0
+  db:
+    image: mariadb
+    container_name: maria
+    restart: always
+    environment:
+      MYSQL_USER: thib
+      MYSQL_DATABASE: db
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_PASSWORD: thib
+    volumes:
+      - mariadata:/var/lib/mysql
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+    ports:
+        - "3306:3306"
+  phpmyadmin:
+    container_name: myadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db:db
+    ports:
+      - 8081:80
+    environment:
+      MYSQL_USER: thib
+      MYSQL_PASSWORD: thib
+      MYSQL_ROOT_PASSWORD: qwerty
+    volumes:
+      - /sessions
+
+volumes:
+  mariadata:
