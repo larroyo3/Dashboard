@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  lavaboard:
-    build: ./lavaboard
-    container_name: lavaboard
-    ports:
-      - 80:80
-    restart: always
-    environment:
-      - 0.0.0.0
+#  lavaboard:
+#    build: ./lavaboard
+#    container_name: lavaboard
+#    ports:
+#      - 80:80
+#    restart: always
+#    environment:
+#      - 0.0.0.0
   server:
     build:  ./server
     container_name: server
