@@ -14,7 +14,7 @@ export default function DiscoverHeader() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{color:"white", backgroundColor:"black"}} position="static">
+      <AppBar style={{color:"#fdd5b1", backgroundColor:"black"}} position="static">
         <Toolbar >
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{fontWeight: "bold"}}>
             LAVABOARD

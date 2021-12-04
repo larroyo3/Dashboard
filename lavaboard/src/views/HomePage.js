@@ -63,7 +63,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
 );
 
-const AppBar = styled(MuiAppBar, {
+const HeaderHomePage = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
     transition: theme.transitions.create(['margin', 'width'], {
@@ -150,7 +150,7 @@ export default function HomePage() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <HeaderHomePage style={{ color: "#fdd5b1", backgroundColor: "black" }} position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -161,12 +161,12 @@ export default function HomePage() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Lavaboard
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold" }}>
+                        LAVABOARD
                     </Typography>
-                    <Button color="inherit" onClick={handleClick} >Log Out / Profile</Button>
+                    <Button style={{marginRight: 10}} variant="outlined" color="inherit" onClick={handleClick}>Profil</Button>
                 </Toolbar>
-            </AppBar>
+            </HeaderHomePage>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
@@ -178,7 +178,7 @@ export default function HomePage() {
             >
                 <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
                 <Divider />
-                <MenuItem onClick={ () => navigate("/")}>
+                <MenuItem onClick={() => navigate("/")}>
                     <ListItemIcon>
                         <IconLogout fontSize="small" />
                     </ListItemIcon>
