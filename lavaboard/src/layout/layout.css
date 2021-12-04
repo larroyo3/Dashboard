@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.discoverH1{
+    position: absolute !important;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    left: 55%;
+    font-weight: bold;
+    font: "Roboto";
+    z-index:20;
+    color: #ff7f50;
+    text-shadow: 1px 3px 1px black;
+}
+.discoverH5{
+    position: absolute !important;
+    transform: translateX(-50%) translateY(-50%);
+    top: 65%;
+    left: 53%;
+    font-weight: bold;
+    font: "Roboto";
+    z-index:20;
+    color: #ff7f50;
+}
+
+.btn{
+    position: absolute !important;
+    transform: translateX(-50%) translateY(-50%);
+    top: 75%;
+    left: 39%;
+    font-weight: bold;
+    font: "Roboto";
+    z-index:20;
+    color: #fdd5b1;
+    background-color: #ff7f50;
+}
