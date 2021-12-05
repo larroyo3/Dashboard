@@ -47,7 +47,7 @@ const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -238,9 +238,9 @@ export default function HomePage() {
                     ))}
                 </List>
             </Drawer>
-            <Main open={open}>
+            <Main style={{background:"black", height:"100vh"}} open={open}>
                 <DrawerHeader />
-                <Box style={{ display: "flex", flexWrap: 'wrap', flexDirection: 'row' }}>
+                <Box style={{background:"#fdd5b1", display: "flex", flexWrap: 'wrap', flexDirection: 'row', borderRadius:"20px", padding:"15px"}}>
                     {widget.map((item, index) => (
                         <Draggable>
                             <Box key={index} style={{ width: item.witdh + "%", height: 290, backgroundColor: item.color }}>
