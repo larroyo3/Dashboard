@@ -176,8 +176,6 @@ export default function HomePage() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-                <Divider />
                 <MenuItem onClick={() => navigate("/")}>
                     <ListItemIcon>
                         <IconLogout fontSize="small" />
