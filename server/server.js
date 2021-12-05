@@ -19,6 +19,22 @@ app.get("/about.json", (req, res) => {
     server: {
       current_time: time,
       services: [{
+        "name": "Covid 19",
+        "widgets ": [{
+          "name": "Nombre de cas",
+          "description ": "Affiche le nombre de cas pour le pays",
+          "params ": [{
+            "name": "country",
+            "type": "string"
+          }]
+          },{
+          "name": "Nombre de mort",
+          "description ": "Affiche le nombre de morts a cause du covid pour le pays",
+          "params ": [{
+            "name": "country",
+            "type": "string"
+          }]
+        }]
       }]
     }
   }
