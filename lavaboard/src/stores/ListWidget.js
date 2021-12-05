@@ -1,20 +1,24 @@
-import MailIcon from '@mui/icons-material/Mail';
+import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
+import CoronavirusIcon from '@mui/icons-material/Coronavirus';
+import logoCovid from '../assets/logoCovid.png';
+import logoMort from '../assets/logoMort.png';
 
 const ListItemCovid = [
         {
-            id: 'util-typography',
-            title: 'Typography',
-            icon : <MailIcon />
+            id: 'case',
+            title: 'Nombre de cas',
+            widgetTitle : "Nombre de cas depuis toujours : ",
+            icon : <CoronavirusIcon />,
+            image: <img src={logoCovid} alt="Logo Covid"/>,
+            filter: "Confirmed"
         },
         {
-            id: 'util-color',
-            title: 'Color',
-            icon : <MailIcon />
-        },
-        {
-            id: 'util-shadow',
-            title: 'Shadow',
-            icon : <MailIcon />
+            id: 'death',
+            title: 'Nombre de mort',
+            widgetTitle : "Nombre de mort depuis toujours : ",
+            icon : <AirlineSeatFlatIcon />,
+            image: <img src={logoMort} alt="Logo Mort"/>,
+            filter: "Deaths"
         }
     ];
 

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function getDataCountry(country) {
-    axios.get("https://api.covid19api.com/dayone/country/" + country + "/status/confirmed")
+    axios.get("https://api.covid19api.com/live/country/" + country + "/status/confirmed")
     .then(response => {
         console.log(response.data)
     })
