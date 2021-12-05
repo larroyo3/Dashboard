@@ -22,14 +22,6 @@
     color: #ff7f50;
 }
 
-.btn{
-    position: absolute !important;
-    transform: translateX(-50%) translateY(-50%);
-    top: 75%;
-    left: 39%;
-    font-weight: bold;
-    font: "Roboto";
-    z-index:20;
-    color: #fdd5b1;
-    background-color: #ff7f50;
+.changecolor:hover{
+    color:#ff7f50
 }

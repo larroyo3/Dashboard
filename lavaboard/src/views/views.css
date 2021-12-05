@@ -12,3 +12,12 @@
     opacity:0.4;
     position:absolute
 }
+
+
+.listwidget:hover{
+    color:#ff7f50
+}
+
+.listicon:hover{
+    color:#ff7f50
+}

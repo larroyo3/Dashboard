@@ -26,10 +26,10 @@ export default function DiscoverHeader() {
 
     return (
         <Box>
-            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold" }}>
+            <Typography  className="changecolor" variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold" }}>
                 LAVABOARD
             </Typography>
-            <Button style={{position:"absolute", right:"20px", top:"15px"}} variant="outlined" color="inherit" onClick={handleClick}>Profil</Button>
+            <Button className="changecolor" style={{position:"absolute", right:"20px", top:"15px"}} variant="outlined" color="inherit" onClick={handleClick}>Profil</Button>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}

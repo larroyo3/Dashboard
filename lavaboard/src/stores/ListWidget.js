@@ -1,6 +1,6 @@
 import MailIcon from '@mui/icons-material/Mail';
 
-const covid = [
+const ListItemCovid = [
         {
             id: 'util-typography',
             title: 'Typography',
@@ -18,4 +18,4 @@ const covid = [
         }
     ];
 
-export default covid;
+export default ListItemCovid;

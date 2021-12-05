@@ -4,9 +4,11 @@ import nextId from "react-id-generator";
 import { setPrefix } from "react-id-generator";
 import Draggable from "react-draggable";
 
+import "./views.css"
+
 //import component
 import Header from "../layout/Header"
-import ListWidget from "../stores/ListWidget"
+import ListItemCovid from "../stores/ListWidget"
 
 //import MUI
 import { styled, useTheme } from '@mui/material/styles';
@@ -24,8 +26,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -38,6 +38,7 @@ import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Typography from '@mui/material/Typography';
 
 const covid = require('../services/apis/covid.js');
 
@@ -180,41 +181,22 @@ export default function HomePage() {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
+                <Box style={{margin:"10px"}}>
                 <List>
-                    COVID 19
-                    {['Cas par jour', "Taux d'incidence", 'Taux de vaccination'].map((text, index) => (
-                        <ListItem button key={text} onClick={handleClickOpen}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{fontWeight: "bold", marginBottom:"10px" }}>
+                        Covid 19
+                    </Typography>
+                    {ListItemCovid.map((item, id) => (
+                        <ListItem className="listwidget" button key={id} onClick={handleClickOpen}>
+                            <ListItemIcon className="listicon">
+                                {item.icon}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText primary={item.title} />
                         </ListItem>
                     ))}
                 </List>
                 <Divider />
-                <List>
-                    Météo
-                    {['Prévision'].map((text, index) => (
-                        <ListItem button key={text} onClick={handleClickOpen}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    Horloge mondiale
-                    {['Heure', "Différence d'heure"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon onClick={handleClickOpen}>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
+                </Box>
             </Drawer>
             <Main style={{ background: "#fdd5b1", height: "100vh" }} open={open}>
                 <DrawerHeader />
