@@ -14,13 +14,13 @@ export default function DiscoverHeader() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{color:"white", backgroundColor:"black"}} position="static">
+      <AppBar style={{color:"#fdd5b1", backgroundColor:"black"}} position="static">
         <Toolbar >
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{fontWeight: "bold"}}>
+          <Typography className="changecolor" variant="h5" component="div" sx={{ flexGrow: 1 }} style={{fontWeight: "bold"}}>
             LAVABOARD
           </Typography>
-          <Button style={{marginRight: 20}} variant="outlined" color="inherit" onClick={ () => navigate("/register")}>S'inscrire</Button>
-          <Button style={{marginRight: 10}} variant="outlined" color="inherit" onClick={ () => navigate("/login")}>Connexion</Button>
+          <Button className="changecolor" style={{marginRight: 20}} variant="outlined" color="inherit" onClick={ () => navigate("/register")}>S'inscrire</Button>
+          <Button className="changecolor" style={{marginRight: 10}} variant="outlined" color="inherit" onClick={ () => navigate("/login")}>Connexion</Button>
         </Toolbar>
       </AppBar>
     </Box>
