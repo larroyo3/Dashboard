@@ -12,3 +12,39 @@
     opacity:0.4;
     position:absolute
 }
+
+
+.listwidget:hover{
+    color:#ff7f50
+}
+
+.listicon:hover{
+    color:#ff7f50
+}
+
+.boxWidgets{
+    background: #ff7f50;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.boxWidget{
+    height: 290;
+    background-color: white;
+    margin:5px;
+    padding:10px;
+    border-radius: 10px;
+}
+
+.btn{
+    position: absolute !important;
+    transform: translateX(-50%) translateY(-50%);
+    top: 20px;
+    left: 95%;
+    font-weight: bold;
+    background-color: red;
+    z-index: 10;
+}

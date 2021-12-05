@@ -31,9 +31,9 @@ function Discover() {
                 Crée ton propre dashboard
             </Typography>
             <Typography variant="h5" component="div" className="discoverH5">
-                Des centaines de widget disponibles. Aucune carte de crédit nécessaire.
+                Des centaines de widgets disponibles. Aucune carte de crédit nécessaire.
             </Typography>
-            <Button style={{color:"#fdd5b1", backgroundColor:"#ff7f50"}} className="btn" size="large" variant="contained" onClick={ () => navigate("/register")}>S'inscrire gratuitement</Button>
+            <Button style={{color:"#fdd5b1", backgroundColor:"#ff7f50", zIndex:20}} className="btn" size="large" variant="contained" onClick={ () => navigate("/register")}>S'inscrire gratuitement</Button>
         </Box>
   );
 }

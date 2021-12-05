@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 
-import ConnexionCard from "../ui-componants/ConnexionCard";
-import "../ui-componants/ui-components.css"
+import ConnexionCard from "../ui-components/ConnexionCard";
+import "../ui-components/ui-components.css"
 
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +23,7 @@ function Register() {
   const [divcomp, setDiv] = useState("");
 
   useEffect(() => { 
-    document.getElementById("divcomp").innerHTML= divcomp;
+    document.getElementById("divcomp").innerHTML = divcomp;
   }, [divcomp])
 
   const registerUser = async (name, password) => {
