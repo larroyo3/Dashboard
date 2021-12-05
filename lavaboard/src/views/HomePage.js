@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 
 import nextId from "react-id-generator";
 import { setPrefix } from "react-id-generator";
 import Draggable from "react-draggable";
 
 //import component
+import Header from "../layout/Header"
+import ListWidget from "../stores/ListWidget"
 
 //import MUI
 import { styled, useTheme } from '@mui/material/styles';
@@ -15,8 +16,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -35,12 +34,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import IconLogout from '@mui/icons-material/Logout';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 
 const drawerWidth = 240;
 
@@ -93,17 +90,6 @@ setPrefix("");
 
 export default function HomePage() {
     const theme = useTheme();
-    let navigate = useNavigate();
-
-    //menu
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const openMenu = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-    };
 
     //drawer
     const [open, setOpen] = React.useState(false);
@@ -161,29 +147,16 @@ export default function HomePage() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold" }}>
-                        LAVABOARD
-                    </Typography>
-                    <Button style={{marginRight: 10}} variant="outlined" color="inherit" onClick={handleClick}>Profil</Button>
+                    <Header />
                 </Toolbar>
             </HeaderHomePage>
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={openMenu}
-                onClose={handleCloseMenu}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
-            >
-                <MenuItem onClick={() => navigate("/")}>
-                    <ListItemIcon>
-                        <IconLogout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                </MenuItem>
-            </Menu>
             <Drawer
+                PaperProps={{
+                    sx: {
+                        backgroundColor: "#fdd5b1",
+                        color: "black",
+                    }
+                }}
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -238,9 +211,9 @@ export default function HomePage() {
                     ))}
                 </List>
             </Drawer>
-            <Main style={{background:"black", height:"100vh"}} open={open}>
+            <Main style={{ background: "#fdd5b1", height: "100vh" }} open={open}>
                 <DrawerHeader />
-                <Box style={{background:"#fdd5b1", display: "flex", flexWrap: 'wrap', flexDirection: 'row', borderRadius:"20px", padding:"15px"}}>
+                <Box style={{ background: "#ff7f50", display: "flex", flexWrap: 'wrap', flexDirection: 'row', borderRadius: "20px", padding: "15px" }}>
                     {widget.map((item, index) => (
                         <Draggable>
                             <Box key={index} style={{ width: item.witdh + "%", height: 290, backgroundColor: item.color }}>
