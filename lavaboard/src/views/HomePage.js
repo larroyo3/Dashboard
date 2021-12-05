@@ -182,20 +182,20 @@ export default function HomePage() {
                 </DrawerHeader>
                 <Divider />
                 <Box style={{margin:"10px"}}>
-                <List>
-                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{fontWeight: "bold", marginBottom:"10px" }}>
-                        Covid 19
-                    </Typography>
-                    {ListItemCovid.map((item, id) => (
-                        <ListItem className="listwidget" button key={id} onClick={handleClickOpen}>
-                            <ListItemIcon className="listicon">
-                                {item.icon}
-                            </ListItemIcon>
-                            <ListItemText primary={item.title} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
+                    <List>
+                        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{fontWeight: "bold", marginBottom:"10px" }}>
+                            Covid 19
+                        </Typography>
+                        {ListItemCovid.map((item, id) => (
+                            <ListItem className="listwidget" button key={id} onClick={handleClickOpen}>
+                                <ListItemIcon className="listicon">
+                                    {item.icon}
+                                </ListItemIcon>
+                                <ListItemText primary={item.title} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider />
                 </Box>
             </Drawer>
             <Main style={{ background: "#fdd5b1", height: "100vh" }} open={open}>
