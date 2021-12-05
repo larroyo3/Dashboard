@@ -39,6 +39,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+const covid = require('../services/apis/covid.js');
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -89,6 +91,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 setPrefix("");
 
 export default function HomePage() {
+
+    covid.getDataCountry("france");
+
     const theme = useTheme();
 
     //drawer

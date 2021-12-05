@@ -23,7 +23,7 @@ function Register() {
   const [divcomp, setDiv] = useState("");
 
   useEffect(() => { 
-    document.getElementById("divcomp").innerHTML= divcomp;
+    document.getElementById("divcomp").innerHTML = divcomp;
   }, [divcomp])
 
   const registerUser = async (name, password) => {
