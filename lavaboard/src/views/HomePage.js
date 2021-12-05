@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 
 import nextId from "react-id-generator";
 import { setPrefix } from "react-id-generator";
 import Draggable from "react-draggable";
+import axios from 'axios'
+
+import "./views.css"
 
 //import component
+import Header from "../layout/Header"
+import ListItemCovid from "../stores/ListWidget"
 
 //import MUI
 import { styled, useTheme } from '@mui/material/styles';
@@ -15,8 +19,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -25,29 +27,31 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import IconLogout from '@mui/icons-material/Logout';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import Slide from '@mui/material/Slide';
+import TextField from '@mui/material/TextField';
+import { FormControl } from '@mui/material';
 
 const drawerWidth = 240;
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -63,7 +67,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
 );
 
-const AppBar = styled(MuiAppBar, {
+const HeaderHomePage = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
     transition: theme.transitions.create(['margin', 'width'], {
@@ -92,22 +96,26 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 setPrefix("");
 
 export default function HomePage() {
-    const theme = useTheme();
-    let navigate = useNavigate();
 
-    //menu
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const openMenu = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-    };
+    const [nbCovid, setValuesCovid] = React.useState([{ Country: "", Deaths: 0, Confirmed: 0 }]);
+    const theme = useTheme();
+
+    //api covid
+    async function getDataCountry(country, filter) {
+        axios.get("https://api.covid19api.com/summary")
+            .then(response => {
+                console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
+                setValuesCovid(({ Country: country, Deaths: response.data.Countries.find(item => item.Slug === country || item.Country === country).TotalDeaths, Confirmed: response.data.Countries.find(item => item.Slug === country || item.Country === country).TotalConfirmed }))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     //drawer
     const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
+        setValuesCovid({})
         setOpen(true);
     };
     const handleDrawerClose = () => {
@@ -121,7 +129,10 @@ export default function HomePage() {
 
     //dialogue
     const [openDialogue, setOpenDialogue] = React.useState(false);
-    const handleClickOpen = () => {
+    const handleClickOpen = (title, image, filter) => {
+        values.title = title;
+        values.image = image
+        values.filter = filter
         setOpenDialogue(true);
     };
     const handleClose = () => {
@@ -130,27 +141,36 @@ export default function HomePage() {
 
     //forms dialogue
     const [values, setValues] = React.useState({
-        couleur: "",
-        text: "",
         largeur: "",
+        country: "",
+        title: "",
+        filter: "",
+        image: null,
+        number: 0
     });
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
     const confirmForm = () => {
         setOpenDialogue(false);
-        setWidget(widget.concat({ id: nextId(), color: values.couleur, name: values.text, witdh: values.largeur }));
-        values.couleur = "";
-        values.text = "";
+        console.log(nbCovid)
+        getDataCountry("France");
+        console.log(nbCovid)
+        setWidget(widget.concat({ id: nextId(), country: values.country, witdh: values.largeur, title: values.title, image: values.image, number: values.filter === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
+        values.country = "";
         values.largeur = "";
+        values.title = "";
+        values.image = null;
+        values.number = 0;
+        values.filter = ""
     };
 
-    const [widget, setWidget] = useState([{ id: nextId(), color: "blue", name: "hello", witdh: "30" }, { id: nextId(), color: "red", name: "world", witdh: "5" }, { id: nextId(), color: "green", name: "coucou", witdh: "40" }, { id: nextId(), color: "blue", name: "hello", witdh: "25" }, { id: nextId(), color: "red", name: "world", witdh: "10" }, { id: nextId(), color: "green", name: "coucou", witdh: "30" }])
+    const [widget, setWidget] = useState([])
 
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <HeaderHomePage style={{ color: "#fdd5b1", backgroundColor: "black" }} position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -161,31 +181,16 @@ export default function HomePage() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Lavaboard
-                    </Typography>
-                    <Button color="inherit" onClick={handleClick} >Log Out / Profile</Button>
+                    <Header />
                 </Toolbar>
-            </AppBar>
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={openMenu}
-                onClose={handleCloseMenu}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
-            >
-                <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-                <Divider />
-                <MenuItem onClick={ () => navigate("/")}>
-                    <ListItemIcon>
-                        <IconLogout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                </MenuItem>
-            </Menu>
+            </HeaderHomePage>
             <Drawer
+                PaperProps={{
+                    sx: {
+                        backgroundColor: "#fdd5b1",
+                        color: "black",
+                    }
+                }}
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -204,102 +209,89 @@ export default function HomePage() {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <List>
-                    COVID 19
-                    {['Cas par jour', "Taux d'incidence", 'Taux de vaccination'].map((text, index) => (
-                        <ListItem button key={text} onClick={handleClickOpen}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    Météo
-                    {['Prévision'].map((text, index) => (
-                        <ListItem button key={text} onClick={handleClickOpen}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    Horloge mondiale
-                    {['Heure', "Différence d'heure"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon onClick={handleClickOpen}>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
+                <Box style={{ margin: "10px" }}>
+                    <List>
+                        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", marginBottom: "10px" }}>
+                            Covid 19
+                        </Typography>
+                        {ListItemCovid.map((item, id) => (
+                            <ListItem className="listwidget" button key={id} onClick={() => handleClickOpen(item.widgetTitle, item.image, item.filter)}>
+                                <ListItemIcon className="listicon">
+                                    {item.icon}
+                                </ListItemIcon>
+                                <ListItemText primary={item.title} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider />
+                </Box>
             </Drawer>
-            <Main open={open}>
+            <div>
+                <Dialog PaperProps={{
+                    style: {
+                        borderRadius: "20px",
+                        backgroundColor: '#fdd5b1',
+                        color: "black",
+                        boxShadow: 'none',
+                    },
+                }} TransitionComponent={Transition} open={openDialogue} onClose={handleClose}>
+                    <DialogTitle>Entre tes paramètres</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Pays"
+                            type="email"
+                            fullWidth
+                            variant="outlined"
+                            value={values.country}
+                            onChange={handleChange("country")}
+                        />
+                        <FormControl style={{ marginTop: "20px" }}>
+                            <InputLabel htmlFor="component-outlined">Largeur</InputLabel>
+                            <OutlinedInput
+                                id="component-outlined"
+                                value={values.largeur}
+                                onChange={handleChange("largeur")}
+                                label="largeur"
+                                endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                            />
+                        </FormControl >
+                    </DialogContent>
+                    <DialogActions>
+                        <Button style={{ color: "red" }} onClick={handleClose}>Annuler</Button>
+                        <Button onClick={confirmForm}>Confirmer</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+            <Main style={{ background: "#fdd5b1", height: "100vh" }} open={open}>
                 <DrawerHeader />
-                <Box style={{ display: "flex", flexWrap: 'wrap', flexDirection: 'row' }}>
+                <Box className="boxWidgets">
                     {widget.map((item, index) => (
                         <Draggable>
-                            <Box key={index} style={{ width: item.witdh + "%", height: 290, backgroundColor: item.color }}>
-                                {item.name}
-                                <IconButton aria-label="delete" onClick={() => deleteWidget(item.id)}>
-                                    <DeleteIcon />
+                            <Box key={index} className="boxWidget" style={{ width: item.witdh + "%" }}>
+                                <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingRight:"30px", zIndex: 10 }}>
+                                    {item.title}
+                                </Typography>
+                                <Typography variant="h3" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingRight:"30px", zIndex: 10 }}>
+                                    {item.country}
+                                </Typography>
+                                <IconButton className="btn" aria-label="delete" onClick={() => deleteWidget(item.id)}>
+                                    <DeleteIcon style={{color:"red"}}/>
                                 </IconButton>
-                                <IconButton aria-label="delete">
+                                <Divider/>
+                                <Typography variant="h2" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingTop:"20px" }}>
+                                {item.number}
+                                </Typography>
+                                {item.image}
+                                {/* <IconButton aria-label="delete">
                                     <MoreHorizIcon />
-                                </IconButton>
+                                </IconButton> */}
                             </Box>
                         </Draggable>
                     ))}
                 </Box>
-                <div>
-                    <Dialog open={openDialogue} onClose={handleClose}>
-                        <DialogTitle>Subscribe</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To subscribe to this website, please enter your email address here. We
-                                will send updates occasionally.
-                            </DialogContentText>
-                            <FormControl>
-                                <InputLabel htmlFor="component-outlined">couleur</InputLabel>
-                                <OutlinedInput
-                                    id="component-outlined"
-                                    value={values.couleur}
-                                    onChange={handleChange("couleur")}
-                                    label="couleur"
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <InputLabel htmlFor="component-outlined">text</InputLabel>
-                                <OutlinedInput
-                                    id="component-outlined"
-                                    value={values.text}
-                                    onChange={handleChange("text")}
-                                    label="text"
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <InputLabel htmlFor="component-outlined">Largeur</InputLabel>
-                                <OutlinedInput
-                                    id="component-outlined"
-                                    value={values.largeur}
-                                    onChange={handleChange("largeur")}
-                                    label="largeur"
-                                    endAdornment={<InputAdornment position="end">%</InputAdornment>}
-                                />
-                            </FormControl>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button onClick={confirmForm}>Subscribe</Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
             </Main>
         </Box>
     );

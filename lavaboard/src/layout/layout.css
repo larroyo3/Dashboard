@@ -33,3 +33,7 @@
     color: #fdd5b1;
     background-color: #ff7f50;
 }
+
+.changecolor:hover{
+    color:#ff7f50
+}
