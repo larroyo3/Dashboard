@@ -33,7 +33,7 @@ function Discover() {
             <Typography variant="h5" component="div" className="discoverH5">
                 Des centaines de widgets disponibles. Aucune carte de crédit nécessaire.
             </Typography>
-            <Button style={{color:"#fdd5b1", backgroundColor:"#ff7f50", zIndex:20}} className="btn" size="large" variant="contained" onClick={ () => navigate("/register")}>S'inscrire gratuitement</Button>
+            <Button style={{position: "absolute", transform: "translateX(-50%) translateY(-50%)", top:"75%", left: "39%", color:"#fdd5b1", backgroundColor:"#ff7f50", zIndex:"20", fontWeight: "bold", font: "Roboto"}} className="btn" size="large" variant="contained" onClick={ () => navigate("/register")}>S'inscrire gratuitement</Button>
         </Box>
   );
 }
