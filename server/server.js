@@ -26,12 +26,18 @@ app.get("/about.json", (req, res) => {
           "params ": [{
             "name": "country",
             "type": "string"
+          }, {
+            "name": "largeur",
+            "type": "string"
           }]
           },{
           "name": "Nombre de mort",
           "description ": "Affiche le nombre de morts a cause du covid pour le pays",
           "params ": [{
             "name": "country",
+            "type": "string"
+          }, {
+            "name": "largeur",
             "type": "string"
           }]
         }]
