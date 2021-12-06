@@ -25,13 +25,10 @@
 .btn{
     position: absolute !important;
     transform: translateX(-50%) translateY(-50%);
-    top: 75%;
-    left: 39%;
+    top: 200px;
+    left: 20px;
     font-weight: bold;
     font: "Roboto";
-    z-index:20;
-    color: #fdd5b1;
-    background-color: #ff7f50;
 }
 
 .changecolor:hover{
