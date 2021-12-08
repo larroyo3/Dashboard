@@ -33,11 +33,9 @@ Nous avons utilisé **navigate** pour naviguer de page en page :
 
 ## FRONT
 
-Au regard de notre votre nous pouvons observer 4 couleurs :
+Nous pouvons observer 2 couleurs principale sur notre front :
 > Orange: #ff7f50
 > Beige: #fdd5b1
-> Noir:  #000000
-> Blanc:  #ffffff
 
 Et notre logo
 
@@ -50,7 +48,7 @@ Nous avons utilisé différente technologie:
 - **Front**
     - React Js / MUI / React Router
 - **Back**
-    - Express JS
+    - Express JS / Axios
     
 - **Docker**
 - **Docker-compose**
