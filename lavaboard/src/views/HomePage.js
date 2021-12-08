@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 
 import nextId from "react-id-generator";
 import { setPrefix } from "react-id-generator";
@@ -96,14 +96,16 @@ setPrefix("");
 
 export default function HomePage() {
 
-    const [nbCovid, setValuesCovid] = React.useState([{ Country: "", Deaths: 0, Confirmed: 0 }]);
+    const [nbCovid, setValuesCovid] = React.useState({ Country: "", Deaths: 0, Confirmed: 0 });
+    const [widget, setWidget] = useState([])
+
     const theme = useTheme();
 
     //api covid
     async function getDataCountry(country, filter) {
         axios.get("https://api.covid19api.com/summary")
             .then(response => {
-                console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
+                //console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
                 setValuesCovid(({ Country: country, Deaths: response.data.Countries.find(item => item.Slug === country || item.Country === country).TotalDeaths, Confirmed: response.data.Countries.find(item => item.Slug === country || item.Country === country).TotalConfirmed }))
             })
             .catch(err => {
@@ -114,7 +116,7 @@ export default function HomePage() {
     //drawer
     const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
-        setValuesCovid({})
+        setValuesCovid({Country: "", Deaths: 0, Confirmed: 0})
         setOpen(true);
     };
     const handleDrawerClose = () => {
@@ -150,21 +152,25 @@ export default function HomePage() {
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
-    const confirmForm = () => {
-        setOpenDialogue(false);
+    function confirmForm(){
+        //getDataCountry(values.country);
         console.log(nbCovid)
-        getDataCountry(values.country);
-        console.log(nbCovid)
+        console.log(nbCovid.stringify)
+        if (nbCovid.Confirmed !== 0) {
         setWidget(widget.concat({ id: nextId(), country: values.country, witdh: values.largeur, title: values.title, image: values.image, number: values.filter === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
+        }
         values.country = "";
         values.largeur = "";
         values.title = "";
         values.image = null;
         values.number = 0;
         values.filter = ""
-    };
+        setOpenDialogue(false);
+    }
 
-    const [widget, setWidget] = useState([])
+    useEffect(() => {
+        confirmForm()
+    }, [nbCovid])
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -260,7 +266,7 @@ export default function HomePage() {
                     </DialogContent>
                     <DialogActions>
                         <Button style={{ color: "red" }} onClick={handleClose}>Annuler</Button>
-                        <Button onClick={confirmForm}>Confirmer</Button>
+                        <Button onClick={() => {getDataCountry(values.country)}}>Confirmer</Button>
                     </DialogActions>
                 </Dialog>
             </div>
