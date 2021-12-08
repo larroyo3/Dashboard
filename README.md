@@ -8,6 +8,24 @@
 
 ## API :
 
+Nous avons utiliser axios pour nos call API.
+
+### COVID 19
+
+```js
+import axios from 'axios'
+
+export async function getDataCountry(country) {
+    axios.get("https://api.covid19api.com/live/country/" + country + "/status/confirmed")
+    .then(response => {
+        console.log(response.data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+```
+
 ## NAVIGATION :
 
 Nous avons utilisé **react-router**
