@@ -36,7 +36,6 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
