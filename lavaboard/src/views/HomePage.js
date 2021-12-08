@@ -36,7 +36,6 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
@@ -154,7 +153,7 @@ export default function HomePage() {
     const confirmForm = () => {
         setOpenDialogue(false);
         console.log(nbCovid)
-        getDataCountry("France");
+        getDataCountry(values.country);
         console.log(nbCovid)
         setWidget(widget.concat({ id: nextId(), country: values.country, witdh: values.largeur, title: values.title, image: values.image, number: values.filter === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
         values.country = "";
