@@ -3,6 +3,12 @@
 # REDDITECH DOCUMENTATION
 
 - - - -
+## DOCKER / LANCEMENT DU PROJET :
+
+Pour lancer le projet il y a un docker-compose à la root du projet il suffit de taper la commande **sudo docker-compose up** et le lavaboard se lancera !
+
+Il y a un service pour chaque partie du projet definie dans le docker-compose.yml. Il y a un Dockerfile pour le front et un pour le back. Celui pour le front est accessible dans le dossier lavaboard et celui pour le back est accessible dans le dossier server. L'image de MariaDB et de PHPmyadmin sont construite dans le docker-compose directement.
+
 
 ## BACK :
 
