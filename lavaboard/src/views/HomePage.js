@@ -96,7 +96,7 @@ setPrefix("");
 
 export default function HomePage() {
 
-    const [nbCovid, setValuesCovid] = React.useState({ Country: "", Deaths: 0, Confirmed: 0 });
+    const [valueAPI, setValuesAPI] = React.useState({resultCallAPI: 0});
     const [widget, setWidget] = useState([])
 
     const theme = useTheme();
@@ -106,7 +106,7 @@ export default function HomePage() {
         axios.get("https://api.covid19api.com/summary")
             .then(response => {
                 //console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
-                setValuesCovid(({ Country: selectedParameter, Deaths: response.data.Countries.find(item => item.Slug === selectedParameter || item.Country === selectedParameter).TotalDeaths, Confirmed: response.data.Countries.find(item => item.Slug === selectedParameter || item.Country === selectedParameter).TotalConfirmed }))
+                setValuesAPI(({resultCallAPI: response.data.Countries.find(item => item.Slug === selectedParameter || item.Country === selectedParameter).TotalDeaths}))
             })
             .catch(err => {
                 console.log(err)
@@ -116,7 +116,7 @@ export default function HomePage() {
     //drawer
     const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
-        setValuesCovid({ Country: "", Deaths: 0, Confirmed: 0 })
+        setValuesAPI({resultCallAPI: 0})
         setOpen(true);
     };
     const handleDrawerClose = () => {
@@ -156,10 +156,10 @@ export default function HomePage() {
     };
     function confirmForm() {
         //getDataCountry(values.selectedParameter);
-        console.log(nbCovid)
-        console.log(nbCovid.stringify)
-        if (nbCovid.Confirmed !== 0) {
-            setWidget(widget.concat({ id: nextId(), selectedParameter: values.selectedParameter, witdh: values.largeur, title: values.title, image: values.image, number: values.filterAPI === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
+        console.log(valueAPI)
+        console.log(valueAPI.stringify)
+        if (valueAPI.resultCallAPI !== 0) {
+            setWidget(widget.concat({ id: nextId(), selectedParameter: values.selectedParameter, witdh: values.largeur, title: values.title, image: values.image, number: valueAPI.resultCallAPI}));
         }
         values.selectedParameter = "";
         values.largeur = "";
@@ -173,7 +173,7 @@ export default function HomePage() {
 
     useEffect(() => {
         confirmForm()
-    }, [nbCovid])
+    }, [valueAPI])
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -219,7 +219,7 @@ export default function HomePage() {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-{/* affichage différents widgets / services */}
+{/* liste widgets / services */}
                 <Box style={{ margin: "10px" }}>
                     {ListServiceItem.map((itemService, idService) => (
                         <List>
