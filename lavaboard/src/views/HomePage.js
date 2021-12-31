@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import nextId from "react-id-generator";
 import { setPrefix } from "react-id-generator";
@@ -9,7 +9,7 @@ import "./views.css"
 
 //import component
 import Header from "../layout/Header"
-import ListItemCovid from "../stores/ListWidget"
+import ListServiceItem from "../stores/ListWidget"
 
 //import MUI
 import { styled, useTheme } from '@mui/material/styles';
@@ -102,7 +102,7 @@ export default function HomePage() {
     const theme = useTheme();
 
     //api covid
-    async function getDataCountry(country, filter) {
+    async function getDataCountry(country) {
         axios.get("https://api.covid19api.com/summary")
             .then(response => {
                 //console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
@@ -116,7 +116,7 @@ export default function HomePage() {
     //drawer
     const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
-        setValuesCovid({Country: "", Deaths: 0, Confirmed: 0})
+        setValuesCovid({ Country: "", Deaths: 0, Confirmed: 0 })
         setOpen(true);
     };
     const handleDrawerClose = () => {
@@ -130,10 +130,10 @@ export default function HomePage() {
 
     //dialogue
     const [openDialogue, setOpenDialogue] = React.useState(false);
-    const handleClickOpen = (title, image, filter) => {
+    const handleClickOpen = (title, image, filterAPI) => {
         values.title = title;
         values.image = image
-        values.filter = filter
+        values.filterAPI = filterAPI
         setOpenDialogue(true);
     };
     const handleClose = () => {
@@ -145,26 +145,26 @@ export default function HomePage() {
         largeur: "",
         country: "",
         title: "",
-        filter: "",
+        filterAPI: "",
         image: null,
         number: 0
     });
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
-    function confirmForm(){
+    function confirmForm() {
         //getDataCountry(values.country);
         console.log(nbCovid)
         console.log(nbCovid.stringify)
         if (nbCovid.Confirmed !== 0) {
-        setWidget(widget.concat({ id: nextId(), country: values.country, witdh: values.largeur, title: values.title, image: values.image, number: values.filter === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
+            setWidget(widget.concat({ id: nextId(), country: values.country, witdh: values.largeur, title: values.title, image: values.image, number: values.filterAPI === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
         }
         values.country = "";
         values.largeur = "";
         values.title = "";
         values.image = null;
         values.number = 0;
-        values.filter = ""
+        values.filterAPI = ""
         setOpenDialogue(false);
     }
 
@@ -175,6 +175,7 @@ export default function HomePage() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
+            {/* Header */}
             <HeaderHomePage style={{ color: "#fdd5b1", backgroundColor: "black" }} position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
@@ -189,6 +190,7 @@ export default function HomePage() {
                     <Header />
                 </Toolbar>
             </HeaderHomePage>
+            {/* drawer */}
             <Drawer
                 PaperProps={{
                     sx: {
@@ -214,24 +216,28 @@ export default function HomePage() {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
+                {/* affichage différents widgets / services */}
                 <Box style={{ margin: "10px" }}>
-                    <List>
-                        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                            Covid 19
-                        </Typography>
-                        {ListItemCovid.map((item, id) => (
-                            <ListItem className="listwidget" button key={id} onClick={() => handleClickOpen(item.widgetTitle, item.image, item.filter)}>
-                                <ListItemIcon className="listicon">
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.title} />
-                            </ListItem>
-                        ))}
-                    </List>
+                    {ListServiceItem.map((itemService, idService) => (
+                        <List>
+                            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", marginBottom: "10px" }}>
+                                {itemService.service}
+                            </Typography>
+                            {itemService.childWidget.map((itemWidget, idWidget) => (
+                                <ListItem className="listwidget" button key={idWidget} onClick={() => handleClickOpen(itemWidget.widgetTitle, itemWidget.image, itemWidget.filterAPI)}>
+                                    <ListItemIcon className="listicon">
+                                        {itemWidget.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={itemWidget.selectionTitle} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    ))}
                     <Divider />
                 </Box>
             </Drawer>
             <div>
+                {/* parametre widget */}
                 <Dialog PaperProps={{
                     style: {
                         borderRadius: "20px",
@@ -266,28 +272,29 @@ export default function HomePage() {
                     </DialogContent>
                     <DialogActions>
                         <Button style={{ color: "red" }} onClick={handleClose}>Annuler</Button>
-                        <Button onClick={() => {getDataCountry(values.country)}}>Confirmer</Button>
+                        <Button onClick={() => { getDataCountry(values.country) }}>Confirmer</Button>
                     </DialogActions>
                 </Dialog>
             </div>
             <Main style={{ background: "#fdd5b1", height: "100vh" }} open={open}>
                 <DrawerHeader />
+                {/* affichage widget */}
                 <Box className="boxWidgets">
                     {widget.map((item, index) => (
                         <Draggable>
                             <Box key={index} className="boxWidget" style={{ width: item.witdh + "%" }}>
-                                <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingRight:"30px", zIndex: 10 }}>
+                                <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingRight: "30px", zIndex: 10 }}>
                                     {item.title}
                                 </Typography>
-                                <Typography variant="h3" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingRight:"30px", zIndex: 10 }}>
+                                <Typography variant="h3" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingRight: "30px", zIndex: 10 }}>
                                     {item.country}
                                 </Typography>
                                 <IconButton className="btn" aria-label="delete" onClick={() => deleteWidget(item.id)}>
-                                    <DeleteIcon style={{color:"red"}}/>
+                                    <DeleteIcon style={{ color: "red" }} />
                                 </IconButton>
-                                <Divider/>
-                                <Typography variant="h2" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingTop:"20px" }}>
-                                {item.number}
+                                <Divider />
+                                <Typography variant="h2" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingTop: "20px" }}>
+                                    {item.number}
                                 </Typography>
                                 {item.image}
                                 {/* <IconButton aria-label="delete">
