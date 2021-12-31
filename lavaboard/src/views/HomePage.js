@@ -102,11 +102,21 @@ export default function HomePage() {
     const theme = useTheme();
 
     //api covid
-    async function getDataCountry(selectedParameter) {
+    async function getDeathCovidByCountry(selectedParameter) {
         axios.get("https://api.covid19api.com/summary")
             .then(response => {
                 //console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
                 setValuesAPI(({resultCallAPI: response.data.Countries.find(item => item.Slug === selectedParameter || item.Country === selectedParameter).TotalDeaths}))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    async function getConfirmedCovidByCountry(selectedParameter) {
+        axios.get("https://api.covid19api.com/summary")
+            .then(response => {
+                //console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
+                setValuesAPI(({resultCallAPI: response.data.Countries.find(item => item.Slug === selectedParameter || item.Country === selectedParameter).TotalConfirmed}))
             })
             .catch(err => {
                 console.log(err)
@@ -130,7 +140,8 @@ export default function HomePage() {
 
     //dialogue
     const [openDialogue, setOpenDialogue] = React.useState(false);
-    const handleClickOpen = (title, image, filterAPI, formParameter) => {
+    const handleClickOpen = (title, image, filterAPI, formParameter, id) => {
+        values.selectedWidget = id;
         values.title = title;
         values.image = image;
         values.filterAPI = filterAPI;
@@ -145,6 +156,7 @@ export default function HomePage() {
     const [values, setValues] = React.useState({
         largeur: "",
         selectedParameter: "",
+        selectedWidget: "",
         title: "",
         filterAPI: "",
         formParameter: "",
@@ -155,13 +167,14 @@ export default function HomePage() {
         setValues({ ...values, [prop]: event.target.value });
     };
     function confirmForm() {
-        //getDataCountry(values.selectedParameter);
+        //getDeathCovidByCountry(values.selectedParameter);
         console.log(valueAPI)
         console.log(valueAPI.stringify)
         if (valueAPI.resultCallAPI !== 0) {
             setWidget(widget.concat({ id: nextId(), selectedParameter: values.selectedParameter, witdh: values.largeur, title: values.title, image: values.image, number: valueAPI.resultCallAPI}));
         }
         values.selectedParameter = "";
+        values.selectedWidget = "";
         values.largeur = "";
         values.title = "";
         values.image = null;
@@ -227,7 +240,7 @@ export default function HomePage() {
                                 {itemService.service}
                             </Typography>
                             {itemService.childWidget.map((itemWidget, idWidget) => (
-                                <ListItem className="listwidget" button key={idWidget} onClick={() => handleClickOpen(itemWidget.widgetTitle, itemWidget.image, itemWidget.filterAPI, itemWidget.formParameter)}>
+                                <ListItem className="listwidget" button key={idWidget} onClick={() => handleClickOpen(itemWidget.widgetTitle, itemWidget.image, itemWidget.filterAPI, itemWidget.formParameter, itemWidget.id)}>
                                     <ListItemIcon className="listicon">
                                         {itemWidget.icon}
                                     </ListItemIcon>
@@ -275,7 +288,7 @@ export default function HomePage() {
                     </DialogContent>
                     <DialogActions>
                         <Button style={{ color: "red" }} onClick={handleClose}>Annuler</Button>
-                        <Button onClick={() => { getDataCountry(values.selectedParameter) }}>Confirmer</Button>
+                        <Button onClick={() => { getConfirmedCovidByCountry(values.selectedParameter) }}>Confirmer</Button>
                     </DialogActions>
                 </Dialog>
             </div>
