@@ -102,11 +102,11 @@ export default function HomePage() {
     const theme = useTheme();
 
     //api covid
-    async function getDataCountry(country) {
+    async function getDataCountry(selectedParameter) {
         axios.get("https://api.covid19api.com/summary")
             .then(response => {
                 //console.log(response.data.Countries.find(item => item.Slug === country || item.Country === country))
-                setValuesCovid(({ Country: country, Deaths: response.data.Countries.find(item => item.Slug === country || item.Country === country).TotalDeaths, Confirmed: response.data.Countries.find(item => item.Slug === country || item.Country === country).TotalConfirmed }))
+                setValuesCovid(({ Country: selectedParameter, Deaths: response.data.Countries.find(item => item.Slug === selectedParameter || item.Country === selectedParameter).TotalDeaths, Confirmed: response.data.Countries.find(item => item.Slug === selectedParameter || item.Country === selectedParameter).TotalConfirmed }))
             })
             .catch(err => {
                 console.log(err)
@@ -130,10 +130,11 @@ export default function HomePage() {
 
     //dialogue
     const [openDialogue, setOpenDialogue] = React.useState(false);
-    const handleClickOpen = (title, image, filterAPI) => {
+    const handleClickOpen = (title, image, filterAPI, formParameter) => {
         values.title = title;
-        values.image = image
-        values.filterAPI = filterAPI
+        values.image = image;
+        values.filterAPI = filterAPI;
+        values.formParameter = formParameter;
         setOpenDialogue(true);
     };
     const handleClose = () => {
@@ -143,9 +144,10 @@ export default function HomePage() {
     //forms dialogue
     const [values, setValues] = React.useState({
         largeur: "",
-        country: "",
+        selectedParameter: "",
         title: "",
         filterAPI: "",
+        formParameter: "",
         image: null,
         number: 0
     });
@@ -153,18 +155,19 @@ export default function HomePage() {
         setValues({ ...values, [prop]: event.target.value });
     };
     function confirmForm() {
-        //getDataCountry(values.country);
+        //getDataCountry(values.selectedParameter);
         console.log(nbCovid)
         console.log(nbCovid.stringify)
         if (nbCovid.Confirmed !== 0) {
-            setWidget(widget.concat({ id: nextId(), country: values.country, witdh: values.largeur, title: values.title, image: values.image, number: values.filterAPI === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
+            setWidget(widget.concat({ id: nextId(), selectedParameter: values.selectedParameter, witdh: values.largeur, title: values.title, image: values.image, number: values.filterAPI === "Deaths" ? nbCovid.Deaths : nbCovid.Confirmed }));
         }
-        values.country = "";
+        values.selectedParameter = "";
         values.largeur = "";
         values.title = "";
         values.image = null;
         values.number = 0;
-        values.filterAPI = ""
+        values.filterAPI = "";
+        values.formParameter = "";
         setOpenDialogue(false);
     }
 
@@ -175,7 +178,7 @@ export default function HomePage() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            {/* Header */}
+{/* Header */}
             <HeaderHomePage style={{ color: "#fdd5b1", backgroundColor: "black" }} position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
@@ -190,7 +193,7 @@ export default function HomePage() {
                     <Header />
                 </Toolbar>
             </HeaderHomePage>
-            {/* drawer */}
+{/* drawer */}
             <Drawer
                 PaperProps={{
                     sx: {
@@ -216,7 +219,7 @@ export default function HomePage() {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                {/* affichage différents widgets / services */}
+{/* affichage différents widgets / services */}
                 <Box style={{ margin: "10px" }}>
                     {ListServiceItem.map((itemService, idService) => (
                         <List>
@@ -224,7 +227,7 @@ export default function HomePage() {
                                 {itemService.service}
                             </Typography>
                             {itemService.childWidget.map((itemWidget, idWidget) => (
-                                <ListItem className="listwidget" button key={idWidget} onClick={() => handleClickOpen(itemWidget.widgetTitle, itemWidget.image, itemWidget.filterAPI)}>
+                                <ListItem className="listwidget" button key={idWidget} onClick={() => handleClickOpen(itemWidget.widgetTitle, itemWidget.image, itemWidget.filterAPI, itemWidget.formParameter)}>
                                     <ListItemIcon className="listicon">
                                         {itemWidget.icon}
                                     </ListItemIcon>
@@ -237,7 +240,7 @@ export default function HomePage() {
                 </Box>
             </Drawer>
             <div>
-                {/* parametre widget */}
+{/* parametre widget */}
                 <Dialog PaperProps={{
                     style: {
                         borderRadius: "20px",
@@ -252,12 +255,12 @@ export default function HomePage() {
                             autoFocus
                             margin="dense"
                             id="name"
-                            label="Pays"
+                            label={values.formParameter}
                             type="email"
                             fullWidth
                             variant="outlined"
-                            value={values.country}
-                            onChange={handleChange("country")}
+                            value={values.selectedParameter}
+                            onChange={handleChange("selectedParameter")}
                         />
                         <FormControl style={{ marginTop: "20px" }}>
                             <InputLabel htmlFor="component-outlined">Largeur</InputLabel>
@@ -272,13 +275,13 @@ export default function HomePage() {
                     </DialogContent>
                     <DialogActions>
                         <Button style={{ color: "red" }} onClick={handleClose}>Annuler</Button>
-                        <Button onClick={() => { getDataCountry(values.country) }}>Confirmer</Button>
+                        <Button onClick={() => { getDataCountry(values.selectedParameter) }}>Confirmer</Button>
                     </DialogActions>
                 </Dialog>
             </div>
             <Main style={{ background: "#fdd5b1", height: "100vh" }} open={open}>
                 <DrawerHeader />
-                {/* affichage widget */}
+{/* affichage widget */}
                 <Box className="boxWidgets">
                     {widget.map((item, index) => (
                         <Draggable>
@@ -287,7 +290,7 @@ export default function HomePage() {
                                     {item.title}
                                 </Typography>
                                 <Typography variant="h3" component="div" sx={{ flexGrow: 1 }} style={{ fontWeight: "bold", paddingRight: "30px", zIndex: 10 }}>
-                                    {item.country}
+                                    {item.selectedParameter}
                                 </Typography>
                                 <IconButton className="btn" aria-label="delete" onClick={() => deleteWidget(item.id)}>
                                     <DeleteIcon style={{ color: "red" }} />
