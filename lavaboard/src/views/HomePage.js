@@ -288,7 +288,12 @@ export default function HomePage() {
                     </DialogContent>
                     <DialogActions>
                         <Button style={{ color: "red" }} onClick={handleClose}>Annuler</Button>
-                        <Button onClick={() => { getConfirmedCovidByCountry(values.selectedParameter) }}>Confirmer</Button>
+                        {
+                            {
+                                'death': <Button onClick={() => { getDeathCovidByCountry(values.selectedParameter) }}>Confirmer</Button>,
+                                'confirmed': <Button onClick={() => { getConfirmedCovidByCountry(values.selectedParameter) }}>Confirmer</Button>
+                            }[values.selectedWidget]
+                        }
                     </DialogActions>
                 </Dialog>
             </div>

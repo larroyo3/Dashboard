@@ -8,7 +8,7 @@ const ListServiceItem = [
         service: "Covid 19",
         childWidget: [
             {
-                id: 'conforimed',
+                id: 'confirmed',
                 selectionTitle: 'Nombre de cas',
                 widgetTitle: "Nombre de cas depuis toujours : ",
                 icon: <CoronavirusIcon />,
