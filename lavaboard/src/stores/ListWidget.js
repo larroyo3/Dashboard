@@ -3,23 +3,30 @@ import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import logoCovid from '../assets/logoCovid.png';
 import logoMort from '../assets/logoMort.png';
 
-const ListItemCovid = [
-        {
-            id: 'case',
-            title: 'Nombre de cas',
-            widgetTitle : "Nombre de cas depuis toujours : ",
-            icon : <CoronavirusIcon />,
-            image: <img src={logoCovid} alt="Logo Covid"/>,
-            filter: "Confirmed"
-        },
-        {
-            id: 'death',
-            title: 'Nombre de mort',
-            widgetTitle : "Nombre de mort depuis toujours : ",
-            icon : <AirlineSeatFlatIcon />,
-            image: <img src={logoMort} alt="Logo Mort"/>,
-            filter: "Deaths"
-        }
-    ];
+const ListServiceItem = [
+    {
+        service: "Covid 19",
+        childWidget: [
+            {
+                id: 'confirmed',
+                selectionTitle: 'Nombre de cas',
+                widgetTitle: "Nombre de cas depuis toujours : ",
+                icon: <CoronavirusIcon />,
+                image: <img src={logoCovid} alt="Logo Covid" />,
+                filterAPI: "Confirmed",
+                formParameter: "Pays"
+            },
+            {
+                id: 'death',
+                selectionTitle: 'Nombre de mort',
+                widgetTitle: "Nombre de mort depuis toujours : ",
+                icon: <AirlineSeatFlatIcon />,
+                image: <img src={logoMort} alt="Logo Mort" />,
+                filterAPI: "Deaths",
+                formParameter: "Pays"
+            }
+        ]
+    }
+];
 
-export default ListItemCovid;
+export default ListServiceItem;
