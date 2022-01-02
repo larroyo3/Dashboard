@@ -3,6 +3,7 @@ import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import logoCovid from '../assets/logoCovid.png';
 import logoMort from '../assets/logoMort.png';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
+import FlagIcon from '@mui/icons-material/Flag';
 
 const ListServiceItem = [
     {
@@ -67,6 +68,21 @@ const ListServiceItem = [
                 image: null,
                 filterAPI: "",
                 formParameter: "Ville"
+            }
+        ]
+    },
+    {
+        service : "Drapeau Pays",
+        childWidget :
+        [
+            {
+                id: 'drapeau',
+                selectionTitle: "Image du drapeau",
+                widgetTitle: "Drapeau :",
+                icon: <FlagIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Pays"
             }
         ]
     }

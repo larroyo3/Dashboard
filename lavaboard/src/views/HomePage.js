@@ -10,6 +10,7 @@ import "./views.css"
 //import component
 import Header from "../layout/Header"
 import ListServiceItem from "../stores/ListWidget"
+import CountryList from "../stores/CountryList"
 
 //import MUI
 import { styled, useTheme } from '@mui/material/styles';
@@ -123,8 +124,15 @@ export default function HomePage() {
             })
     }
     function getIMGWeatherByTown(selectedParameter, period) {
-        var town = "https://www.prevision-meteo.ch/uploads/widget/" + selectedParameter.toLowerCase() + period + ".png";
+        var town = "https://www.prevision-meteo.ch/uploads/widget/" + selectedParameter + period + ".png";
         values.image =<a href="https://www.prevision-meteo.ch/meteo/localite/paris"><img alt="meteo" src={town} width="650" height="250" /></a>
+        setValuesAPI(({resultCallAPI: null}))
+    }
+    function getIMGFlagByCountry(selectedParameter) {
+        selectedParameter = selectedParameter.charAt(0).toUpperCase() + selectedParameter.slice(1);
+        var cnd = CountryList.find(item => item.name === selectedParameter);
+        var country = "https://flagcdn.com/" + cnd.code + ".svg";
+        values.image = <img src={country} width="500" alt="Pays"/>
         setValuesAPI(({resultCallAPI: null}))
     }
 
@@ -301,7 +309,8 @@ export default function HomePage() {
                                 't0' : <Button onClick={() => { getIMGWeatherByTown(values.selectedParameter, "_0") }}>Confirmer</Button>,
                                 't1' : <Button onClick={() => { getIMGWeatherByTown(values.selectedParameter, "_1") }}>Confirmer</Button>,
                                 't2' : <Button onClick={() => { getIMGWeatherByTown(values.selectedParameter, "_2") }}>Confirmer</Button>,
-                                't3' : <Button onClick={() => { getIMGWeatherByTown(values.selectedParameter, "_3") }}>Confirmer</Button>
+                                't3' : <Button onClick={() => { getIMGWeatherByTown(values.selectedParameter, "_3") }}>Confirmer</Button>,
+                                'drapeau' : <Button onClick={() => { getIMGFlagByCountry(values.selectedParameter) }}>Confirmer</Button>,
                             }[values.selectedWidget]
                         }
                     </DialogActions>
