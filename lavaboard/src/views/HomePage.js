@@ -135,6 +135,103 @@ export default function HomePage() {
         values.image = <img src={country} width="500" alt="Pays"/>
         setValuesAPI(({resultCallAPI: null}))
     }
+    async function getPopulationByTown(town) {
+        axios.get("https://geo.api.gouv.fr/communes?nom=" + town + "&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre")
+        .then(response => {
+            values.selectedParameter = response.data[0].nom
+            setValuesAPI(({resultCallAPI: response.data[0].population}))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+    async function getDepartmentByTown(town) {
+        axios.get("https://geo.api.gouv.fr/communes?nom=" + town + "&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre")
+        .then(response => {
+            values.selectedParameter = response.data[0].nom
+            var code = response.data[0].codeDepartement
+            axios.get("https://geo.api.gouv.fr/departements?code=" + code + "&fields=")
+            .then(response => {
+                setValuesAPI(({resultCallAPI: response.data[0].nom}))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+    async function getDepartmentByCode(code) {
+        axios.get("https://geo.api.gouv.fr/departements?code=" + code + "&fields=")
+            .then(response => {
+                setValuesAPI(({resultCallAPI: response.data[0].nom}))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    async function getDepartmentByName(departement) {
+        axios.get("https://geo.api.gouv.fr/departements?nom=" + departement + "&fields=")
+            .then(response => {
+                values.selectedParameter = response.data[0].nom
+                setValuesAPI(({resultCallAPI: response.data[0].code}))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    async function getRegionByTown(town) {
+        axios.get("https://geo.api.gouv.fr/communes?nom=" + town + "&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre")
+        .then(response => {
+            values.selectedParameter = response.data[0].nom
+            var code = response.data[0].codeRegion
+            axios.get("https://geo.api.gouv.fr/regions?code=" + code + "&fields=nom,code")
+            .then(response => {
+                setValuesAPI(({resultCallAPI: response.data[0].nom}))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+    async function getRegionByDepartementName(departement) {
+        axios.get("https://geo.api.gouv.fr/departements?nom=" + departement + "&fields=")
+        .then(response => {
+            values.selectedParameter = response.data[0].nom
+            var code = response.data[0].codeRegion
+            axios.get("https://geo.api.gouv.fr/regions?code=" + code + "&fields=nom,code")
+            .then(response => {
+                setValuesAPI(({resultCallAPI: response.data[0].nom}))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+    async function getRegionByDepartementCode(code) {
+        axios.get("https://geo.api.gouv.fr/departements?code=" + code + "&fields=")
+        .then(response => {
+            values.selectedParameter = response.data[0].nom
+            var code = response.data[0].codeRegion
+            axios.get("https://geo.api.gouv.fr/regions?code=" + code + "&fields=nom,code")
+            .then(response => {
+                setValuesAPI(({resultCallAPI: response.data[0].nom}))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     //drawer
     const [open, setOpen] = React.useState(false);
@@ -311,6 +408,13 @@ export default function HomePage() {
                                 't2' : <Button onClick={() => { getIMGWeatherByTown(values.selectedParameter, "_2") }}>Confirmer</Button>,
                                 't3' : <Button onClick={() => { getIMGWeatherByTown(values.selectedParameter, "_3") }}>Confirmer</Button>,
                                 'drapeau' : <Button onClick={() => { getIMGFlagByCountry(values.selectedParameter) }}>Confirmer</Button>,
+                                'population' : <Button onClick={() => { getPopulationByTown(values.selectedParameter) }}>Confirmer</Button>,
+                                'departementByTown' : <Button onClick={() => { getDepartmentByTown(values.selectedParameter) }}>Confirmer</Button>,
+                                'departementByCode' : <Button onClick={() => { getDepartmentByCode(values.selectedParameter) }}>Confirmer</Button>,
+                                'departementByName' : <Button onClick={() => { getDepartmentByName(values.selectedParameter) }}>Confirmer</Button>,
+                                'regionByTown' : <Button onClick={() => { getRegionByTown(values.selectedParameter) }}>Confirmer</Button>,
+                                'regionByDepartementName' : <Button onClick={() => { getRegionByDepartementName(values.selectedParameter) }}>Confirmer</Button>,
+                                'regionByDepartementCode' : <Button onClick={() => { getRegionByDepartementCode(values.selectedParameter) }}>Confirmer</Button>,
                             }[values.selectedWidget]
                         }
                     </DialogActions>

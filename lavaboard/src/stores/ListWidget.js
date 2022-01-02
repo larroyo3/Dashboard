@@ -4,6 +4,9 @@ import logoCovid from '../assets/logoCovid.png';
 import logoMort from '../assets/logoMort.png';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
 import FlagIcon from '@mui/icons-material/Flag';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import PublicIcon from '@mui/icons-material/Public';
 
 const ListServiceItem = [
     {
@@ -83,6 +86,75 @@ const ListServiceItem = [
                 image: null,
                 filterAPI: "",
                 formParameter: "Pays"
+            }
+        ]
+    },
+    {
+        service : "Découpage géographique",
+        childWidget :
+        [
+            {
+                id: 'population',
+                selectionTitle: "Population par ville",
+                widgetTitle: "Population :",
+                icon: <SupervisorAccountIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Ville"
+            },
+            {
+                id: 'departementByTown',
+                selectionTitle: "Nom département depuis une ville",
+                widgetTitle: "Département :",
+                icon: <ApartmentIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Ville"
+            },
+            {
+                id: 'departementByCode',
+                selectionTitle: "Nom département depuis son code",
+                widgetTitle: "Département :",
+                icon: <ApartmentIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Code du département"
+            },
+            {
+                id: 'departementByName',
+                selectionTitle: "Code département depuis son nom",
+                widgetTitle: "Département :",
+                icon: <ApartmentIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Nom du département"
+            },
+            {
+                id: 'regionByTown',
+                selectionTitle: "Nom région depuis une ville",
+                widgetTitle: "Ville :",
+                icon: <PublicIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Ville"
+            },
+            {
+                id: 'regionByDepartementName',
+                selectionTitle: "Nom région depuis un nom de département",
+                widgetTitle: "Département :",
+                icon: <PublicIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Nom du département"
+            },
+            {
+                id: 'regionByDepartementCode',
+                selectionTitle: "Nom région depuis un code de département",
+                widgetTitle: "Département :",
+                icon: <PublicIcon />,
+                image: null,
+                filterAPI: "",
+                formParameter: "Code du département"
             }
         ]
     }
