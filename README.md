@@ -1,7 +1,7 @@
 # PRESENTATION PROJET
 
 Projet réalisé en 2 semaines en groupes de 2 personnes dans le cadre d'Epitech. </br>
-Programmation d'une application web ayant pour objectif de permettre à l'utilisateur de créer son propre dashboard en créant ses propres widgets configurables à l'aide de différents services.
+Programmation d'une application web ayant pour objectif de permettre à l'utilisateur de créer son propre dashboard avec ses propres widgets personnalisables à l'aide de différents services.
 
 # DASHBOARD DOCUMENTATION
 
