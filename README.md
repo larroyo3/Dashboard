@@ -1,6 +1,9 @@
-# B-DEV-500-LYN-5-1-dashboard-thibault.bordenave
+# PRESENTATION PROJET
 
-# REDDITECH DOCUMENTATION
+Projet réalisé en 2 semaines en groupes de 2 personnes dans le cadre d'Epitech. </br>
+Programmation d'une application web ayant pour objectif de permettre à l'utilisateur de créer son propre dashboard en créant ses propres widgets configurables à l'aide de différents services.
+
+# DASHBOARD DOCUMENTATION
 
 - - - -
 ## DOCKER / LANCEMENT DU PROJET :
