@@ -1,6 +1,6 @@
 # PRESENTATION PROJET
 
-Projet réalisé en 2 semaines en groupes de 2 personnes dans le cadre de ma 3ème à Epitech. </br>
+Projet réalisé en 2 semaines en groupes de 2 personnes dans le cadre de ma 3ème années à Epitech. </br>
 Programmation d'une application web ayant pour objectif de permettre à l'utilisateur de créer son propre dashboard avec ses propres widgets personnalisables à l'aide de différents services.
 </br></br>
 # DASHBOARD DOCUMENTATION
